@@ -38,4 +38,3 @@ module Fireside::Views
     end
   end
 end
->>>>>>> 6ddf1b3bd9bc592030a0180375f727e55ba6fa18
