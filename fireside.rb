@@ -31,12 +31,14 @@ module Fireside::Models
     property :url,        String
     property :body,       Text
   end
+
+  DataMapper.auto_migrate!
 end
 
 module Fireside::Controllers
   class Index
     def get
-      @posts = Post.find :all
+      @posts = Post.all(:order => :created_at.desc)
       render :index
     end
   end
