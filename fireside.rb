@@ -58,25 +58,30 @@ module Fireside::Controllers
   class UpvoteN
     def get(post_id)
       @post = Post.get(post_id)
-      if @post
-
+      if @post != nil
         @post.upvotes = @post.upvotes.to_i + 1
         @post.save
-        redirect Index
+
       end
+      redirect Index
     end
   end
 
   class DownvoteN
     def get(post_id)
       @post = Post.get(post_id)
-      if @post
+      if @post != nil
         @post.downvotes = @post.downvotes.to_i + 1
         @post.save
-        redirect Index
+
       end
+      redirect Index
     end
   end
+
+  class CommentsX
+    def post(comment)
+    end
 
 end
 
@@ -121,7 +126,7 @@ module Fireside::Views
     h2 'Add a Post'
     form :action => R(New), :method => 'post' do
       input :name => 'title', :type => 'string', :value => @to if @to
-      
+
       label 'URL', :for => 'url'
       input :name => 'url', :id => 'url', :type => 'text'
 
