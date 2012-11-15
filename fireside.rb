@@ -95,7 +95,7 @@ module Fireside::Views
       thead do
         tr do
           th 'Title'
-          th 'Body'
+          th 'URL'
           th 'Created At'
           th 'Upvotes'
           th 'Downvotes'
@@ -105,7 +105,7 @@ module Fireside::Views
         @posts.each do |post|
           tr do
             th post.title
-            th post.body
+            th post.url
             th post.created_at
             th post.upvotes
             th post.downvotes
@@ -116,6 +116,15 @@ module Fireside::Views
   end
 
   def new
+    h2 'Add a Post'
+    form :action => R(New), :method => 'post' do
+      input :name => 'title', :type => 'string', :value => @to if @to
+      
+      label 'URL', :for => 'url'
+      input :name => 'url', :id => 'url', :type => 'text'
+
+      input :type => 'submit', :class => 'submit', :value => 'New'
+    end
   end
 
 
