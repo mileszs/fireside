@@ -115,10 +115,10 @@ module Fireside::Views
             end
             td post.created_at
             td do
-              a "UP", :href => R(Upvote)
+              a "#{post.upvotes} UP", :href => R(UpvoteN, post.id)
             end
             td do
-              a "DOWN", :href => R(Downvote)
+              a "#{post.downvotes} DOWN", :href => R(DownvoteN, post.id)
             end
           end
         end
