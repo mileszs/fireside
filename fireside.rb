@@ -46,6 +46,18 @@ module Fireside::Controllers
       render :index
     end
   end
+
+  class New
+    def get
+
+    end
+  end
+
+  class Create
+    def post
+
+    end
+  end
 end
 
 module Fireside::Views
