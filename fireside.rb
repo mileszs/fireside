@@ -55,7 +55,7 @@ module Fireside::Controllers
     end
   end
 
-  class Upvote
+  class UpvoteN
     def get(post_id)
       @post = Post.get(post_id)
       if @post
@@ -66,7 +66,7 @@ module Fireside::Controllers
     end
   end
 
-  class Downvote
+  class DownvoteN
     def get(post_id)
       @post = Post.get(post_id)
       if @post
