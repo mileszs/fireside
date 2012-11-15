@@ -46,6 +46,35 @@ module Fireside::Controllers
       render :index
     end
   end
+
+  class New
+    def get
+
+    end
+
+    def post
+    end
+  end
+
+  class Upvote
+    def get(post_id)
+      @post = Post.get(post_id)
+      if @post
+        @post.downvotes += 1
+        @post.save
+      end
+    end
+  end
+
+  class Downvote
+    def get(post_id)
+      @post = Post.get(post_id)
+      if @post
+        @post.downvotes += 1
+        @post.save
+      end
+    end
+  end
 end
 
 module Fireside::Views
@@ -87,7 +116,11 @@ module Fireside::Views
   def new
   end
 
-  def create
+
+  def upvote
+  end
+
+  def downvote
   end
 
 end
