@@ -25,7 +25,7 @@ module Fireside::Models
     property :upvotes,    Integer
     property :downvotes,  Integer
 
-    EPOCH = Time.local(20011, 12, 8, 7, 46, 43).to_time
+    EPOCH = Time.at(0)
 
     def epoch_seconds
       (created_at.strftime("%s").to_i - EPOCH.to_i).to_f
@@ -177,21 +177,11 @@ module Fireside::Views
       tbody do
         @posts.each do |post|
           tr do
-            td do
-              a post.title, :href => post.url, :target => '_blank'
-            end
-
-
+            td { a post.title, :href => post.url, :target => '_blank' }
             td post.created_at.strftime "%D %r"
-            td do
-              a "#{post.upvotes} UP", :href => R(UpvoteN, post.id)
-            end
-            td do
-              a "#{post.downvotes} DOWN", :href => R(DownvoteN, post.id)
-            end
-            th do
-              a "Comments (#{post.comments.length})", :href => R(ShowN,post.id)
-            end
+            td { a "#{post.upvotes} UP", :href => R(UpvoteN, post.id) }
+            td { a "#{post.downvotes} DOWN", :href => R(DownvoteN, post.id) }
+            th { a "Comments (#{post.comments.length})", :href => R(ShowN,post.id) }
           end
         end
       end
@@ -212,7 +202,6 @@ module Fireside::Views
     form :action => R(CommentsN,@post.id), :method => 'post' do
       textarea :name => 'content'
 
-
       input :type => 'submit', :class => 'submit', :value => 'Add Comment'
     end
 
@@ -230,7 +219,6 @@ module Fireside::Views
       input :type => 'submit', :class => 'submit', :value => 'New'
     end
   end
-
 
   def upvote
   end
