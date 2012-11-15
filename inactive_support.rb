@@ -4,3 +4,9 @@ class Object
     obj.nil? || obj.empty?
   end
 end
+class Fixnum
+  # list methods which aren't in superclass
+  def blank?
+    false
+  end
+end
