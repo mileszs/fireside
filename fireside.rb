@@ -20,9 +20,9 @@ end
 module Fireside::Views
   def layout
     html do
-      head { title "My Blog" }
+      head { title "Fireside" }
       body do
-        h1 "My Blog"
+        h1 "Fireside - A MicroReddit in the Ureter of Alex"
         self << yield
       end
     end
