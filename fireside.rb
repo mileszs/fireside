@@ -3,7 +3,7 @@ require 'dm-timestamps'
 require 'dm-validations'
 require 'dm-migrations'
 require 'camping'
-
+require './inactive_support'
 # If you want the logs displayed you have to do this before the call to setup
 DataMapper::Logger.new($stdout, :debug)
 
@@ -46,6 +46,7 @@ module Fireside::Controllers
     end
   end
 
+
   class ShowN
     def get(post_id)
       @post = Post.get(post_id)
@@ -55,6 +56,14 @@ module Fireside::Controllers
         redirect Index
       end
     end
+  end
+  class New
+    def get
+      @post = Post.new
+      render :new
+    end
+
+
   end
 
   class UpvoteN
@@ -126,12 +135,18 @@ module Fireside::Views
       tbody do
         @posts.each do |post|
           tr do
-            th do
+            td do
               a post.title, :href => post.url, :target => '_blank'
             end
-            th post.created_at
-            th post.upvotes
-            th post.downvotes
+
+
+            td post.created_at
+            td do
+              a "#{post.upvotes} UP", :href => R(UpvoteN, post.id)
+            end
+            td do
+              a "#{post.downvotes} DOWN", :href => R(DownvoteN, post.id)
+            end
             th do
               a "Comments (#{post.comments.length})", :href => R(ShowN,post.id)
             end
