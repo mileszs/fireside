@@ -46,12 +46,14 @@ module Fireside::Controllers
     end
   end
 
-  class New
-    def get
-
-    end
-
-    def post
+  class ShowN
+    def get(post_id)
+      @post = Post.get(post_id)
+      if @post != nil
+        render :show
+      else
+        redirect Index
+      end
     end
   end
 
@@ -78,10 +80,23 @@ module Fireside::Controllers
     end
   end
 
-  class CommentsX
-    def post(comment)
+  class CommentsN
+    def post(post_id)
+      @post = Post.get(post_id)
+      if @post != nil
+        @post.comments.create(:body => @input.content)
+        redirect ShowN, @post.id
+      else
+        redirect Index
+      end
     end
   end
+
+  class New
+    def get
+    end
+  end
+
 
 end
 
@@ -105,6 +120,7 @@ module Fireside::Views
           th 'Created At'
           th 'Upvotes'
           th 'Downvotes'
+          th "Comments"
         end
       end
       tbody do
@@ -116,10 +132,32 @@ module Fireside::Views
             th post.created_at
             th post.upvotes
             th post.downvotes
+            th do
+              a "Comments (#{post.comments.length})", :href => R(ShowN,post.id)
+            end
           end
         end
       end
     end
+  end
+
+  def show
+    h2 @post.title
+
+    h3 "Comments"
+    ul do
+      @post.comments.each do |comment|
+        li comment.body
+      end
+    end
+
+    form :action => R(CommentsN,@post.id), :method => 'post' do
+      textarea :name => 'content'
+
+
+      input :type => 'submit', :class => 'submit', :value => 'Add Comment'
+    end
+
   end
 
   def new
