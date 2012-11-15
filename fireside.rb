@@ -57,12 +57,15 @@ module Fireside::Controllers
       end
     end
   end
+
   class New
     def get
       @post = Post.new
       render :new
     end
+  end
 
+  class Create
     def post
       @post = Post.create(:title => @input.title,
       :url        => @input.url,
@@ -107,10 +110,7 @@ module Fireside::Controllers
     end
   end
 
-  class New
-    def get
-    end
-  end
+
 
 
 end
@@ -185,7 +185,8 @@ module Fireside::Views
   def new
     h2 'Add a Post'
     form :action => R(Create), :method => 'post' do
-      input :name => 'title', :type => 'string', :value => @to if @to
+      label 'Title', :for => 'title'
+      input :name => 'title', :type => 'text'
 
       label 'URL', :for => 'url'
       input :name => 'url', :id => 'url', :type => 'text'
