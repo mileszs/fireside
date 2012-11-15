@@ -24,6 +24,30 @@ module Fireside::Models
     property :created_at, DateTime
     property :upvotes,    Integer
     property :downvotes,  Integer
+
+    EPOCH = Time.local(20011, 12, 8, 7, 46, 43).to_time
+
+    def epoch_seconds(t)
+      (created_at.strftime("%s").to_i - EPOCH.to_i).to_f
+    end
+
+    def score
+      upvotes - downvotes
+    end
+
+    def hot
+      displacement = Math.log( [score.abs, 1].max,  10 )
+
+      sign = if s > 0
+        1
+      elsif s < 0
+        -1
+      else
+        0
+      end
+
+      (displacement * sign.to_f) + (epoch_seconds / 45000 )
+    end
   end
 
   class Comment
@@ -108,10 +132,6 @@ module Fireside::Controllers
       end
     end
   end
-
-
-
-
 end
 
 module Fireside::Views
