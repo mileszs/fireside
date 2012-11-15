@@ -16,16 +16,20 @@ module Fireside::Models
   class Post
     include DataMapper::Resource
 
-     property :id,         Serial
-     property :title,      String
-     property :body,       Text
-     property :created_at, DateTime
-     property :upvotes,    Integer
-     property :downvotes,  Integer
+    has n, :comments
+
+    property :id,         Serial
+    property :title,      String
+    property :body,       Text
+    property :created_at, DateTime
+    property :upvotes,    Integer
+    property :downvotes,  Integer
   end
 
   class Comment
     include DataMapper::Resource
+
+    belongs_to :post
 
     property :id,         Serial
     property :url,        String
@@ -56,8 +60,28 @@ module Fireside::Views
   end
 
   def index
-    @posts.each do |post|
-      h1 post.title
+      table do
+        thead do
+          tr do
+            th 'Title'
+            th 'Body'
+            th 'Created At'
+            th 'Upvotes'
+            th 'Downvotes'
+          end
+        end
+        tbody do
+          @posts.each do |post|
+            tr do
+              th post.title
+              th post.body
+              th post.created_at
+              th post.upvotes
+              th post.downvotes
+            end
+          end
+        end
+      end
     end
   end
 end
