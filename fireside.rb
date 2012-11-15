@@ -32,7 +32,6 @@ module Fireside::Models
     belongs_to :post
 
     property :id,         Serial
-    property :url,        String
     property :body,       Text
   end
 
@@ -56,22 +55,24 @@ module Fireside::Controllers
     end
   end
 
-  class Upvote
+  class UpvoteN
     def get(post_id)
       @post = Post.get(post_id)
       if @post
         @post.downvotes += 1
         @post.save
+        redirect Index
       end
     end
   end
 
-  class Downvote
+  class DownvoteN
     def get(post_id)
       @post = Post.get(post_id)
       if @post
         @post.downvotes += 1
         @post.save
+        redirect Index
       end
     end
   end
@@ -135,3 +136,11 @@ module Fireside::Views
   end
 
 end
+
+Fireside::Models::Post.create(
+  :title      => 'My new kitty.',
+  :url        => 'http://placekitten.com/800/600',
+  :created_at => Time.parse('2012-01-01 19:00 UTC')
+).comments.create(
+  :body => 'This is so cute!!!!!!!!!'
+)
