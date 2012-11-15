@@ -59,7 +59,8 @@ module Fireside::Controllers
     def get(post_id)
       @post = Post.get(post_id)
       if @post
-        @post.downvotes += 1
+
+        @post.upvotes = @post.upvotes.to_i + 1
         @post.save
         redirect Index
       end
@@ -70,7 +71,7 @@ module Fireside::Controllers
     def get(post_id)
       @post = Post.get(post_id)
       if @post
-        @post.downvotes += 1
+        @post.downvotes = @post.downvotes.to_i + 1
         @post.save
         redirect Index
       end
