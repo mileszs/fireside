@@ -87,35 +87,46 @@ module Fireside::Views
       body do
         h1 "Fireside - A Micro-Reddit in the Ureter of Alex"
         self << yield
+        a 'Add a Post', :href => R(New)
       end
     end
   end
 
   def index
-      table do
-        thead do
-          tr do
-            th 'Title'
-            th 'Body'
-            th 'Created At'
-            th 'Upvotes'
-            th 'Downvotes'
-          end
+    table do
+      thead do
+        tr do
+          th 'Title'
+          th 'URL'
+          th 'Created At'
+          th 'Upvotes'
+          th 'Downvotes'
         end
-        tbody do
-          @posts.each do |post|
-            tr do
-              th post.title
-              th post.created_at
-              th post.upvotes
-              th post.downvotes
-            end
+      end
+      tbody do
+        @posts.each do |post|
+          tr do
+            th post.title
+            th post.url
+            th post.created_at
+            th post.upvotes
+            th post.downvotes
           end
         end
       end
+    end
   end
 
   def new
+    h2 'Add a Post'
+    form :action => R(New), :method => 'post' do
+      input :name => 'title', :type => 'string', :value => @to if @to
+      
+      label 'URL', :for => 'url'
+      input :name => 'url', :id => 'url', :type => 'text'
+
+      input :type => 'submit', :class => 'submit', :value => 'New'
+    end
   end
 
 
