@@ -20,7 +20,7 @@ module Fireside::Models
 
     property :id,         Serial
     property :title,      String
-    property :body,       Text
+    property :url,        String
     property :created_at, DateTime
     property :upvotes,    Integer
     property :downvotes,  Integer
@@ -75,6 +75,7 @@ module Fireside::Controllers
       end
     end
   end
+
 end
 
 module Fireside::Views
