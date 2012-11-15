@@ -1,3 +1,2 @@
 require './fireside'
-run Fireside
-
+run Rack::Adapter::Camping.new(Fireside)
