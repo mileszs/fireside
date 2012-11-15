@@ -63,7 +63,13 @@ module Fireside::Controllers
       render :new
     end
 
-
+    def post
+      @post = Post.create(:title => @input.title,
+      :url        => @input.url,
+      :created_at => Time.now
+      )
+      redirect Index
+    end
   end
 
   class UpvoteN
