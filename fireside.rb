@@ -105,12 +105,16 @@ module Fireside::Views
       tbody do
         @posts.each do |post|
           tr do
-            th do
+            td do
               a post.title, :href => post.url, :target => '_blank'
             end
-            th post.created_at
-            th post.upvotes
-            th post.downvotes
+            td post.created_at
+            td do
+              a "UP", :href => R(Upvote)
+            end
+            td do
+              a "DOWN", :href => R(Downvote)
+            end
           end
         end
       end
