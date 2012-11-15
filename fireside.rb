@@ -32,7 +32,6 @@ module Fireside::Models
     belongs_to :post
 
     property :id,         Serial
-    property :url,        String
     property :body,       Text
   end
 
