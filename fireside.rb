@@ -178,7 +178,7 @@ module Fireside::Views
 
   def new
     h2 'Add a Post'
-    form :action => R(New), :method => 'post' do
+    form :action => R(Create), :method => 'post' do
       input :name => 'title', :type => 'string', :value => @to if @to
 
       label 'URL', :for => 'url'
