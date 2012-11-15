@@ -1,7 +1,7 @@
 require 'dm-core'
 require 'dm-timestamps'
 require 'dm-validations'
-require 'dm-migrations'
+require 'dm-migration'
 require 'camping'
 
 # If you want the logs displayed you have to do this before the call to setup
@@ -16,14 +16,21 @@ module Fireside::Models
   class Post
     include DataMapper::Resource
 
-     property :id,         Serial    # An auto-increment integer key
-     property :title,      String    # A varchar type string, for short strings
-     property :body,       Text      # A text block, for longer string data.
-     property :created_at, DateTime  # A DateTime, for any date you might like.
+     property :id,         Serial
+     property :title,      String
+     property :body,       Text
+     property :created_at, DateTime
+     property :upvotes,    Integer
+     property :downvotes,  Integer
   end
 
-  class Comment < Base; belongs_to :user; end
-  class User < Base; end
+  class Comment
+    include DataMapper::Resource
+
+    property :id,         Serial
+    property :url,        String
+    property :body,       Text
+  end
 end
 
 module Fireside::Controllers
@@ -38,9 +45,9 @@ end
 module Fireside::Views
   def layout
     html do
-      head { title "Fireside" }
+      head { title "My Blog" }
       body do
-        h1 "Fireside - A MicroReddit in the Ureter of Alex"
+        h1 "My Blog"
         self << yield
       end
     end
