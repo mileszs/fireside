@@ -27,20 +27,20 @@ module Fireside::Models
 
     EPOCH = Time.local(20011, 12, 8, 7, 46, 43).to_time
 
-    def epoch_seconds(t)
+    def epoch_seconds
       (created_at.strftime("%s").to_i - EPOCH.to_i).to_f
     end
 
     def score
-      upvotes - downvotes
+      self.upvotes.to_i - self.downvotes.to_i
     end
 
     def hot
       displacement = Math.log( [score.abs, 1].max,  10 )
 
-      sign = if s > 0
+      sign = if displacement > 0
         1
-      elsif s < 0
+      elsif displacement < 0
         -1
       else
         0
@@ -66,6 +66,15 @@ module Fireside::Controllers
   class Index
     def get
       @posts = Post.all(:order => :created_at.desc)
+
+      # probably should do this in db... meh
+      case @request[:sort]
+      when 'hot'
+        @posts.sort! { |a,b| b.hot <=> a.hot }
+      when 'score'
+        @posts.sort! { |a,b| b.score <=> a.score }
+      end
+
       render :index
     end
   end
@@ -147,6 +156,14 @@ module Fireside::Views
   end
 
   def index
+    p do
+      span "Sort by: "
+      a 'Most Recent', :href => "#{R(Index)}"
+      span " | "
+      a 'Hottest', :href => "#{R(Index)}?sort=hot"
+      span " | "
+      a 'Highest Score', :href => "#{R(Index)}?sort=score"
+    end
     table do
       thead do
         tr do
