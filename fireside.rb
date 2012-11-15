@@ -16,16 +16,20 @@ module Fireside::Models
   class Post
     include DataMapper::Resource
 
-     property :id,         Serial
-     property :title,      String
-     property :body,       Text
-     property :created_at, DateTime
-     property :upvotes,    Integer
-     property :downvotes,  Integer
+    has n, :comments
+
+    property :id,         Serial
+    property :title,      String
+    property :body,       Text
+    property :created_at, DateTime
+    property :upvotes,    Integer
+    property :downvotes,  Integer
   end
 
   class Comment
     include DataMapper::Resource
+
+    belongs_to :post
 
     property :id,         Serial
     property :url,        String
