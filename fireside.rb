@@ -96,7 +96,6 @@ module Fireside::Views
       thead do
         tr do
           th 'Title'
-          th 'URL'
           th 'Created At'
           th 'Upvotes'
           th 'Downvotes'
@@ -105,8 +104,9 @@ module Fireside::Views
       tbody do
         @posts.each do |post|
           tr do
-            th post.title
-            th post.url
+            th do
+              a post.title, :href => post.url, :target => '_blank'
+            end
             th post.created_at
             th post.upvotes
             th post.downvotes
