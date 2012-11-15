@@ -1,3 +1,7 @@
+require 'dm-core'
+require 'dm-timestamps'
+require 'dm-validations'
+require 'dm-migration'
 require 'camping'
 
 Camping.goes :Fireside
