@@ -146,7 +146,7 @@ module Fireside::Views
             end
 
 
-            td post.created_at
+            td post.created_at.strftime "%D %r"
             td do
               a "#{post.upvotes} UP", :href => R(UpvoteN, post.id)
             end
@@ -166,6 +166,7 @@ module Fireside::Views
     h2 @post.title
 
     h3 "Comments"
+    a "Back", :href => R(Index)
     ul do
       @post.comments.each do |comment|
         li comment.body
