@@ -1,7 +1,7 @@
 require 'dm-core'
 require 'dm-timestamps'
 require 'dm-validations'
-require 'dm-migration'
+require 'dm-migrations'
 require 'camping'
 
 # If you want the logs displayed you have to do this before the call to setup
