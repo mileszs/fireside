@@ -48,7 +48,8 @@ module Fireside::Controllers
 
   class New
     def get
-
+      @post = Post.new
+      render :new
     end
 
     def post
