@@ -61,7 +61,6 @@ module Fireside::Controllers
       if @post != nil
         @post.upvotes = @post.upvotes.to_i + 1
         @post.save
-
       end
       redirect Index
     end
@@ -82,6 +81,7 @@ module Fireside::Controllers
   class CommentsX
     def post(comment)
     end
+  end
 
 end
 
