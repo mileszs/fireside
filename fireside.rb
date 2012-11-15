@@ -105,7 +105,6 @@ module Fireside::Views
           @posts.each do |post|
             tr do
               th post.title
-              th post.body
               th post.created_at
               th post.upvotes
               th post.downvotes
@@ -126,3 +125,11 @@ module Fireside::Views
   end
 
 end
+
+Fireside::Models::Post.create(
+  :title      => 'My new kitty.',
+  :url        => 'http://placekitten.com/800/600',
+  :created_at => Time.parse('2012-01-01 19:00 UTC')
+).comments.create(
+  :body => 'This is so cute!!!!!!!!!'
+)
