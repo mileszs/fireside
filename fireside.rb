@@ -62,6 +62,7 @@ module Fireside::Controllers
       if @post
         @post.downvotes += 1
         @post.save
+        redirect Index
       end
     end
   end
@@ -72,6 +73,7 @@ module Fireside::Controllers
       if @post
         @post.downvotes += 1
         @post.save
+        redirect Index
       end
     end
   end
