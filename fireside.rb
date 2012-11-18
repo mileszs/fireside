@@ -22,10 +22,14 @@ module Fireside::Models
     property :title,      String
     property :url,        String
     property :created_at, DateTime
-    property :upvotes,    Integer
-    property :downvotes,  Integer
+    property :upvotes,    Integer, default: 0
+    property :downvotes,  Integer, default: 0
+    property :hotness,    Float
 
-    EPOCH = Time.at(0)
+    # Not _the_ epoch, but our app's epoch.
+    EPOCH = Time.local(2012, 11, 14, 8, 30, 00).to_time
+
+    before :save, :calculate_hotness
 
     def epoch_seconds
       (created_at.strftime("%s").to_i - EPOCH.to_i).to_f
@@ -35,18 +39,19 @@ module Fireside::Models
       self.upvotes.to_i - self.downvotes.to_i
     end
 
-    def hot
-      displacement = Math.log( [score.abs, 1].max,  10 )
-
-      sign = if displacement > 0
+    def polarity
+      if score > 0
         1
-      elsif displacement < 0
+      elsif score < 0
         -1
       else
         0
       end
+    end
 
-      (displacement * sign.to_f) + (epoch_seconds / 45000 )
+    def calculate_hotness
+      displacement = Math.log([score.abs, 1].max, 10)
+      self.hotness = (displacement * polarity.to_f) + (epoch_seconds / 45000).to_f
     end
   end
 
@@ -65,16 +70,7 @@ end
 module Fireside::Controllers
   class Index
     def get
-      @posts = Post.all(:order => :created_at.desc)
-
-      # probably should do this in db... meh
-      case @request[:sort]
-      when 'hot'
-        @posts.sort! { |a,b| b.hot <=> a.hot }
-      when 'score'
-        @posts.sort! { |a,b| b.score <=> a.score }
-      end
-
+      @posts = Post.all(order: :hotness.desc)
       render :index
     end
   end
