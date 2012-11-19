@@ -152,14 +152,6 @@ module Fireside::Views
   end
 
   def index
-    p do
-      span "Sort by: "
-      a 'Most Recent', :href => "#{R(Index)}"
-      span " | "
-      a 'Hottest', :href => "#{R(Index)}?sort=hot"
-      span " | "
-      a 'Highest Score', :href => "#{R(Index)}?sort=score"
-    end
     table do
       thead do
         tr do
